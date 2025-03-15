@@ -1,0 +1,218 @@
+[gd_scene load_steps=15 format=3 uid="uid://bjoqmxkqnrpim"]
+
+[ext_resource type="Script" uid="uid://bo28y6g821puq" path="res://Scripts/Player.gd" id="2_1s1ds"]
+[ext_resource type="AudioStream" uid="uid://di472rmv7wovg" path="res://Assets/SFX/walk.wav" id="2_5ukr8"]
+[ext_resource type="Script" uid="uid://cbwfwjh8iqn5b" path="res://Scripts/generation.gd" id="3_5a7ea"]
+[ext_resource type="Script" uid="uid://ckyqiocu2pt5d" path="res://Scripts/enemies.gd" id="4_5ukr8"]
+[ext_resource type="Texture2D" uid="uid://cmw63sd5khbhi" path="res://Assets/Spritesheet.png" id="4_8j60k"]
+[ext_resource type="Script" uid="uid://bxkjmssetjcx" path="res://Scripts/ui.gd" id="4_fo5ed"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_gctu0"]
+load_path = "res://.godot/imported/Spritesheet.png-a2c2115bda14ee20f2c9865f0f7efe52.ctex"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ldw0t"]
+size = Vector2(14.3333, 14.6667)
+
+[sub_resource type="Animation" id="Animation_k7acu"]
+resource_name = "Hit"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(0.420346, 0.736293, 0.624014, 1), Color(1, 1, 1, 1), Color(0.420346, 0.736293, 0.624014, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_5v1tr"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.420346, 0.736293, 0.624014, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_0fj1v"]
+_data = {
+&"Hit": SubResource("Animation_k7acu"),
+&"RESET": SubResource("Animation_5v1tr")
+}
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fo5ed"]
+bg_color = Color(0, 0, 0, 0.458824)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5ukr8"]
+bg_color = Color(0.196078, 0.196078, 0.196078, 0.584314)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o06y3"]
+bg_color = Color(0, 0, 0, 0.380392)
+
+[node name="World" type="Node2D"]
+
+[node name="Player" type="CharacterBody2D" parent="." groups=["Player"]]
+position = Vector2(72, 72)
+scale = Vector2(3, 3)
+script = ExtResource("2_1s1ds")
+
+[node name="Sprite2D" type="Sprite2D" parent="Player"]
+modulate = Color(0.420346, 0.736293, 0.624014, 1)
+texture = SubResource("CompressedTexture2D_gctu0")
+region_enabled = true
+region_rect = Rect2(528, 1, 14, 14)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+position = Vector2(0.166664, 0)
+shape = SubResource("RectangleShape2D_ldw0t")
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Player"]
+libraries = {
+&"": SubResource("AnimationLibrary_0fj1v")
+}
+
+[node name="SFX" type="AudioStreamPlayer2D" parent="Player"]
+stream = ExtResource("2_5ukr8")
+volume_db = -20.0
+
+[node name="Generation" type="Node" parent="."]
+script = ExtResource("3_5a7ea")
+enemy_spawn_chance = 0.7
+coin_spawn_chance = 0.7
+heart_spawn_chance = 0.3
+max_enemies_per_room = 1
+max_coins_per_room = 3
+max_hearts_per_room = 1
+
+[node name="Enemies" type="Node" parent="." groups=["Enemy_Manager"]]
+script = ExtResource("4_5ukr8")
+
+[node name="UI" type="CanvasLayer" parent="."]
+script = ExtResource("4_fo5ed")
+
+[node name="HealthBar" type="Panel" parent="UI"]
+offset_left = 45.0
+offset_top = 571.0
+offset_right = 245.0
+offset_bottom = 619.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_fo5ed")
+metadata/_edit_lock_ = true
+
+[node name="Heart 1" type="Sprite2D" parent="UI/HealthBar"]
+position = Vector2(27, 25)
+scale = Vector2(3, 3)
+texture = ExtResource("4_8j60k")
+hframes = 3
+frame = 2
+region_enabled = true
+region_rect = Rect2(680, 170, 50, 16)
+
+[node name="Heart 2" type="Sprite2D" parent="UI/HealthBar"]
+position = Vector2(73, 26)
+scale = Vector2(3, 3)
+texture = ExtResource("4_8j60k")
+hframes = 3
+frame = 2
+region_enabled = true
+region_rect = Rect2(680, 170, 50, 16)
+
+[node name="Heart 3" type="Sprite2D" parent="UI/HealthBar"]
+position = Vector2(121, 25)
+scale = Vector2(3, 3)
+texture = ExtResource("4_8j60k")
+hframes = 3
+frame = 2
+region_enabled = true
+region_rect = Rect2(680, 170, 50, 16)
+
+[node name="Heart 4" type="Sprite2D" parent="UI/HealthBar"]
+position = Vector2(170, 24)
+scale = Vector2(3, 3)
+texture = ExtResource("4_8j60k")
+hframes = 3
+frame = 2
+region_enabled = true
+region_rect = Rect2(680, 170, 50, 16)
+
+[node name="StatBar" type="Panel" parent="UI"]
+custom_minimum_size = Vector2(150, 48)
+offset_left = 47.0
+offset_top = 519.0
+offset_right = 197.0
+offset_bottom = 559.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_5ukr8")
+metadata/_edit_lock_ = true
+
+[node name="CoinSprite" type="Sprite2D" parent="UI/StatBar"]
+position = Vector2(24, 25)
+scale = Vector2(3, 3)
+texture = ExtResource("4_8j60k")
+region_enabled = true
+region_rect = Rect2(697, 51, 16, 16)
+
+[node name="Coins" type="Label" parent="UI/StatBar"]
+layout_mode = 0
+offset_left = 50.0
+offset_top = 15.0
+offset_right = 90.0
+offset_bottom = 38.0
+text = "0"
+
+[node name="KeySprite" type="Sprite2D" parent="UI/StatBar"]
+modulate = Color(1, 1, 1, 0.196078)
+position = Vector2(127, 26)
+scale = Vector2(3, 3)
+texture = ExtResource("4_8j60k")
+region_enabled = true
+region_rect = Rect2(544, 187, 16, 16)
+
+[node name="MiniMap" type="Panel" parent="UI"]
+custom_minimum_size = Vector2(200, 200)
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -200.0
+offset_top = -200.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_o06y3")
+
+[node name="GridContainer" type="GridContainer" parent="UI/MiniMap"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 40.0
+offset_right = -20.0
+offset_bottom = -12.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 6
+
+[node name="Label" type="Label" parent="UI/MiniMap"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 23.0
+grow_horizontal = 2
+text = "Level 1"

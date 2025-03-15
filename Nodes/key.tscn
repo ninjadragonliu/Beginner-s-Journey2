@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://bi3ri8hrxg4ua"]
+
+[ext_resource type="Script" uid="uid://ddbsm1y7an14p" path="res://Scripts/key.gd" id="1_fqkm4"]
+[ext_resource type="Texture2D" uid="uid://cmw63sd5khbhi" path="res://Assets/Spritesheet.png" id="2_nbpk5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_i2uql"]
+size = Vector2(42, 21)
+
+[node name="Key" type="Area2D"]
+script = ExtResource("1_fqkm4")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(3, 3)
+texture = ExtResource("2_nbpk5")
+region_enabled = true
+region_rect = Rect2(544, 187, 16, 16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 1.5)
+shape = SubResource("RectangleShape2D_i2uql")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

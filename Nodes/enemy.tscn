@@ -1,0 +1,65 @@
+[gd_scene load_steps=7 format=3 uid="uid://cl3a33pyyf0fq"]
+
+[ext_resource type="Script" uid="uid://c378a465n23pw" path="res://Scripts/enemy.gd" id="1_1f0kj"]
+[ext_resource type="Texture2D" uid="uid://cmw63sd5khbhi" path="res://Assets/Spritesheet.png" id="2_afpow"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fo5ed"]
+size = Vector2(12, 14)
+
+[sub_resource type="Animation" id="Animation_5ukr8"]
+resource_name = "Hit"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(0.937255, 0.756863, 0.215686, 1), Color(1, 1, 1, 1), Color(0.937255, 0.756863, 0.215686, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_o06y3"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.937255, 0.756863, 0.215686, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_k7acu"]
+_data = {
+&"Hit": SubResource("Animation_5ukr8"),
+&"RESET": SubResource("Animation_o06y3")
+}
+
+[node name="Enemy" type="CharacterBody2D" groups=["Enemy", "Wall"]]
+scale = Vector2(3, 3)
+script = ExtResource("1_1f0kj")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0.937255, 0.756863, 0.215686, 1)
+texture = ExtResource("2_afpow")
+region_enabled = true
+region_rect = Rect2(444, 103, 12, 14)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_fo5ed")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_k7acu")
+}
+
+[node name="SFX" type="AudioStreamPlayer" parent="."]
+volume_db = -20.0
