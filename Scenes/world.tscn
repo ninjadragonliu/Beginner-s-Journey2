@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bjoqmxkqnrpim"]
+[gd_scene load_steps=16 format=3 uid="uid://bjoqmxkqnrpim"]
 
 [ext_resource type="Script" uid="uid://bo28y6g821puq" path="res://Scripts/Player.gd" id="2_1s1ds"]
 [ext_resource type="AudioStream" uid="uid://di472rmv7wovg" path="res://Assets/SFX/walk.wav" id="2_5ukr8"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://ckyqiocu2pt5d" path="res://Scripts/enemies.gd" id="4_5ukr8"]
 [ext_resource type="Texture2D" uid="uid://cmw63sd5khbhi" path="res://Assets/Spritesheet.png" id="4_8j60k"]
 [ext_resource type="Script" uid="uid://bxkjmssetjcx" path="res://Scripts/ui.gd" id="4_fo5ed"]
+[ext_resource type="FontFile" uid="uid://cxd6tu8vbwc4r" path="res://Assets/Kenney Pixel.ttf" id="7_o06y3"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_gctu0"]
 load_path = "res://.godot/imported/Spritesheet.png-a2c2115bda14ee20f2c9865f0f7efe52.ctex"
@@ -163,11 +164,20 @@ region_enabled = true
 region_rect = Rect2(697, 51, 16, 16)
 
 [node name="Coins" type="Label" parent="UI/StatBar"]
-layout_mode = 0
-offset_left = 50.0
-offset_top = 15.0
-offset_right = 90.0
-offset_bottom = 38.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("7_o06y3")
+theme_override_font_sizes/font_size = 40
 text = "0"
 
 [node name="KeySprite" type="Sprite2D" parent="UI/StatBar"]
