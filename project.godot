@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="Simple Roguelike Game"
+config/name="Beginner's Journey2"
 run/main_scene="uid://bx4b7wrx8kc4v"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
