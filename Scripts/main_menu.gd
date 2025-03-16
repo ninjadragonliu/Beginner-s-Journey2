@@ -28,6 +28,7 @@ func _on_start_pressed() -> void:
 func _on_back_pressed() -> void:
 	$Intro.visible = true
 	$Play.visible = false
+	$Stats.visible = false
 
 
 func _on_stats_pressed() -> void:
