@@ -1132,6 +1132,13 @@ theme_override_fonts/font = ExtResource("3_n45e2")
 theme_override_font_sizes/font_size = 40
 text = "Play"
 
+[node name="Stats" type="Button" parent="Intro/Buttons"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_n45e2")
+theme_override_font_sizes/font_size = 40
+text = "Stats"
+
 [node name="Quit" type="Button" parent="Intro/Buttons"]
 custom_minimum_size = Vector2(200, 50)
 layout_mode = 2
@@ -1196,7 +1203,77 @@ theme_override_fonts/font = ExtResource("3_n45e2")
 theme_override_font_sizes/font_size = 40
 text = "Back"
 
+[node name="Stats" type="Panel" parent="."]
+visible = false
+self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(500, 500)
+layout_mode = 0
+offset_left = 282.0
+offset_top = 69.0
+offset_right = 782.0
+offset_bottom = 569.0
+
+[node name="Title" type="Label" parent="Stats"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 23.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("3_n45e2")
+theme_override_font_sizes/font_size = 60
+text = "Stats"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Stats"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HighestLevel" type="Label" parent="Stats/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_n45e2")
+theme_override_font_sizes/font_size = 40
+text = "Highest Level Reached:  3"
+
+[node name="CoinsCollected" type="Label" parent="Stats/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_n45e2")
+theme_override_font_sizes/font_size = 40
+text = "Most Coins Collected:  10"
+
+[node name="EnemiesDefeated" type="Label" parent="Stats/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_n45e2")
+theme_override_font_sizes/font_size = 40
+text = "Most Enemies Defeated: 12"
+
+[node name="Back" type="Button" parent="Stats"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+offset_left = 82.0
+offset_top = 350.0
+offset_right = 408.0
+offset_bottom = 400.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("3_n45e2")
+theme_override_font_sizes/font_size = 40
+text = "Back"
+
 [connection signal="pressed" from="Intro/Buttons/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="Intro/Buttons/Stats" to="." method="_on_stats_pressed"]
 [connection signal="pressed" from="Intro/Buttons/Quit" to="." method="_on_quit_pressed"]
 [connection signal="pressed" from="Play/Buttons/Start" to="." method="_on_start_pressed"]
 [connection signal="pressed" from="Play/Buttons/Back" to="." method="_on_back_pressed"]
+[connection signal="pressed" from="Stats/Back" to="." method="_on_back_pressed"]

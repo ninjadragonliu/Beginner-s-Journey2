@@ -28,3 +28,11 @@ func _on_start_pressed() -> void:
 func _on_back_pressed() -> void:
 	$Intro.visible = true
 	$Play.visible = false
+
+
+func _on_stats_pressed() -> void:
+	$Intro.visible = false
+	$Stats.visible = true
+	$Stats/VBoxContainer/HighestLevel.text = "Highest Level Reached: " + str(Global.max_level)
+	$Stats/VBoxContainer/CoinsCollected.text = "Most Coins Collected: " + str(Global.max_coins)
+	$Stats/VBoxContainer/EnemiesDefeated.text = "Most Enemies Defeated: " + str(Global.max_enemies_defeated)
