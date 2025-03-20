@@ -1,6 +1,9 @@
 extends Node
 
 @onready var room_scene : PackedScene = load("res://Nodes/room.tscn")
+@onready var shop_room_scene : PackedScene = load("res://Nodes/room.tscn") # Room scene is a place holder
+@onready var trap_room_scene : PackedScene = load("res://Nodes/room.tscn")
+@onready var boss_room_scene : PackedScene = load("res://Nodes/room.tscn")
 
 var map_width : int = 7
 var map_height : int = 7
@@ -11,14 +14,24 @@ var first_room_pos : Vector2
 
 var map : Array
 var room_nodes : Array
+var map_room_types : Array
 
 @export var enemy_spawn_chance : float
 @export var coin_spawn_chance : float
 @export var heart_spawn_chance : float
+@export var shop_spawn_chance : float
+@export var trap_spawn_chance : float
 
 @export var max_enemies_per_room : int
 @export var max_coins_per_room : int
 @export var max_hearts_per_room : int
+
+enum RoomType{
+	NORMAL,
+	SHOP,
+	BOSS,
+	TRAP
+}
 
 func _ready():
 	for i in range(map_width):
@@ -26,12 +39,12 @@ func _ready():
 		for j in range(map_height):
 			map[i].append(false)
 	generate()
-			
+
 func generate() -> void:
 	check_room(3, 3, 0, Vector2.ZERO, true)
 	instantiate_rooms()
 	$"../Player".global_position = (first_room_pos * 816) + Vector2(262, 262)
-	
+
 func check_room(x: int, y: int, remaining: int, general_direction: Vector2, first_room: bool = false) -> void:
 	if room_count >= rooms_to_generate:
 		return
@@ -58,6 +71,16 @@ func check_room(x: int, y: int, remaining: int, general_direction: Vector2, firs
 	
 	var max_remaining : int = rooms_to_generate
 	
+	var room_type: RoomType = RoomType.NORMAL
+	if room_count == rooms_to_generate:  # 最后一个房间是Boss房间
+		room_type = RoomType.BOSS
+	elif randf() < shop_spawn_chance:  # 商店房间
+		room_type = RoomType.SHOP
+	elif randf() < trap_spawn_chance:  # 陷阱房间
+		room_type = RoomType.TRAP
+		
+	map_room_types[x][y] = room_type
+	
 	if north or first_room:
 		check_room(x, y + 1, max_remaining if first_room else remaining - 1, Vector2.UP if first_room else general_direction)
 	if south or first_room:
@@ -77,7 +100,19 @@ func instantiate_rooms() -> void:
 			if map[x][y] == false:
 				continue
 			
+			var room_type = map_room_types[x][y]
 			var room = room_scene.instantiate()
+			
+			match room_type:
+				RoomType.NORMAL:
+					room = room_scene.instantiate()
+				RoomType.SHOP:
+					room = shop_room_scene.instantiate()
+				#RoomType.BOSS:
+					#var boss_room_index: int = min(current_level - 1, boss_room_scenes.size() - 1)
+					#room = boss_room_scenes[boss_room_index].instantiate()
+				RoomType.TRAP:
+					room = trap_room_scene.instantiate()
 			room.position = Vector2(x, y) * 816
 			
 			if y > 0 and map[x][y - 1] == true:
@@ -94,7 +129,7 @@ func instantiate_rooms() -> void:
 				
 			$"..".call_deferred("add_child", room)
 			room_nodes.append(room)
-			
+	
 	get_tree().create_timer(1)
 	calculate_key_and_exit()
 
